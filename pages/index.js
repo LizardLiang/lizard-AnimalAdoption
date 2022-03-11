@@ -6,21 +6,24 @@ import {
   SimpleGrid,
   useColorModeValue
 } from '@chakra-ui/react'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
+import { DogInfo } from '../lib/dog-context'
 import Card from '../components/card'
 import Layout from '../components/layouts/article'
 import LoadingPage from '../components/spinner'
 import NoData from '../components/no-data'
 
 const Page = () => {
+  const { setInfo } = useContext(DogInfo) // store dog info for later use
   const [loading, setLoading] = useState(false)
   const [dogInfo, setDogInfo] = useState([])
+
   const searchOffset = useRef(0)
 
   useEffect(() => {
     setLoading(true)
     fetch(
-      `https://cors-anywhere.herokuapp.com/https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&animal_kind=${encodeURIComponent(
+      `https://cor-proxy.herokuapp.com/https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&animal_kind=${encodeURIComponent(
         '狗'
       )}&$top=20&$skip=${searchOffset.current}`,
       {
@@ -32,7 +35,6 @@ const Page = () => {
     )
       .then(res => res.json())
       .then(res => {
-        console.table(res)
         setDogInfo(res)
         setLoading(false)
       })
@@ -88,8 +90,10 @@ const Page = () => {
                       ? '/images/dogPlaceholder.png'
                       : res.album_file
                   }
+                  animal_info={res}
                   title={res.animal_place}
-                ></Card>
+                  handleSelection={setInfo}
+                />
               )
             })}
           </SimpleGrid>
