@@ -8,12 +8,17 @@ import { AnimatePresence } from 'framer-motion'
 
 const Website = ({ Component, pageProps, router }) => {
   const [sel, setSel] = useState({})
+  const handleSelection = newSel => {
+    newSel.animal_age =
+      newSel.animal_age === '' ? 'UNDEFINE' : newSel.animal_age
+    setSel(newSel)
+  }
   return (
     <ChakraProvider theme={theme}>
       <Fonts />
       <Layout router={router}>
         <AnimatePresence exitBeforeEnter initial={true}>
-          <DogInfo.Provider value={{ info: sel, setInfo: setSel }}>
+          <DogInfo.Provider value={{ info: sel, setInfo: handleSelection }}>
             <Component {...pageProps} key={router.route} />
           </DogInfo.Provider>
         </AnimatePresence>
@@ -23,4 +28,3 @@ const Website = ({ Component, pageProps, router }) => {
 }
 
 export default Website
-
