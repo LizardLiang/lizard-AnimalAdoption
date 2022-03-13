@@ -1,14 +1,6 @@
 import NextLink from 'next/link'
-import {
-  Heading,
-  Box,
-  Link,
-  Image,
-  Badge,
-  Text,
-  SimpleGrid,
-  Grid
-} from '@chakra-ui/react'
+import { Heading, Box, Link, Image, Badge, Text, Grid } from '@chakra-ui/react'
+import { StyledDiv } from './section'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 
 export const Title = ({ children }) => (
@@ -61,3 +53,15 @@ export const InfoBox = ({ title, text }) => (
   </Box>
 )
 
+export const InfoSection = ({ children, title, delay = 0 }) => (
+  <StyledDiv
+    initial={{ y: 10, opacity: 0 }}
+    animate={{ y: 0, opacity: 1 }}
+    transition={{ duration: 0.8, delay }}
+  >
+    <Heading variant="info-title" mb={2}>
+      {title}
+    </Heading>
+    {children}
+  </StyledDiv>
+)
