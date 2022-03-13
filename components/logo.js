@@ -35,7 +35,7 @@ const Logo = () => {
             fontWeight="bold"
             ml={3}
           >
-            Lizard Liang - Animal Adoption
+            Lizard Liang - 動物領養
           </Text>
         </LogoBox>
       </a>
@@ -44,4 +44,3 @@ const Logo = () => {
 }
 
 export default Logo
-
