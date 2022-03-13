@@ -81,7 +81,7 @@ const Navbar = props => {
             pl={2}
           >
             <IoLogoGithub />
-            Source
+            源碼
           </LinkItem>
         </Stack>
 
@@ -122,4 +122,3 @@ const Navbar = props => {
 }
 
 export default Navbar
-
