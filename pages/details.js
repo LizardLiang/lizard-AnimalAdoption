@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import Layout from '../components/layouts/article'
 import Section from '../components/section'
-import { Title, Thumbnail, InfoBox } from '../components/detail'
+import { Title, Thumbnail, InfoBox, InfoSection } from '../components/detail'
 import { Container } from '@chakra-ui/react'
 import { DogInfo } from '../lib/dog-context'
 
@@ -114,47 +114,49 @@ const Details = ({}) => {
             thumbnail={info.album_file === '' ? placeholder : info.album_file}
           />
         </Section>
-        <Section delay={0.6}>
+        <InfoSection title="基本資料" delay={0.6}>
           <InfoBox
-            title={`STATUS`}
+            title={`目前狀態`}
             text={LookupTable.status[info.animal_status]}
           />
+          <InfoBox title={`開放日期`} text={info.animal_opendate} />
+          <InfoBox title={`結束日期`} text={info.animal_closedate} />
+        </InfoSection>
+        <InfoSection title="位置訊息" delay={0.9}>
           <InfoBox
-            title={`City`}
+            title={`所在縣市`}
             text={LookupTable.areaPkid[info.animal_area_pkid]}
           />
           <InfoBox
-            title={`Shelter`}
+            title={`收容所名稱`}
             text={LookupTable.shelter[info.animal_shelter_pkid]}
           />
-          <InfoBox title={`Shelter Name`} text={info.shelter_name} />
-          <InfoBox title={`Shelter Address`} text={info.shelter_address} />
-          <InfoBox title={`Shelter Phone`} text={info.shelter_tel} />
-          <InfoBox title={`Place`} text={info.animal_place} />
-          <InfoBox title={`Open Date`} text={info.animal_opendate} />
+        </InfoSection>
+        <InfoSection title="聯絡資訊" delay={1.2}>
+          <InfoBox title={`收容所名稱`} text={info.shelter_name} />
+          <InfoBox title={`收容所地址`} text={info.shelter_address} />
+          <InfoBox title={`收容所電話`} text={info.shelter_tel} />
+          <InfoBox title={`位置`} text={info.animal_place} />
+        </InfoSection>
+        <InfoSection title="動物資訊" delay={1.5}>
           <InfoBox
-            title={`Animal Size`}
+            title={`體型`}
             text={LookupTable.bodyType[info.animal_bodytype]}
           />
-          <InfoBox title={`Colour`} text={info.animal_colour} />
-          <InfoBox title={`Age`} text={LookupTable.age[info.animal_age]} />
+          <InfoBox title={`顏色`} text={info.animal_colour} />
+          <InfoBox title={`年齡`} text={LookupTable.age[info.animal_age]} />
+          <InfoBox title={`姓別`} text={LookupTable.sex[info.animal_sex]} />
           <InfoBox
-            title={`Animal Sex`}
-            text={LookupTable.sex[info.animal_sex]}
-          />
-          <InfoBox
-            title={`Animal Sterilization`}
+            title={`是否絕育`}
             text={LookupTable.sterilized[info.animal_sterilization]}
           />
-          <InfoBox title={`Open Date`} text={info.animal_opendate} />
-          <InfoBox title={`Close Date`} text={info.animal_closedate} />
           <InfoBox
-            title={`Bacterin`}
+            title={`是否注射狂犬病疫苗`}
             text={LookupTable.bacterin[info.animal_bacterin]}
           />
-          <InfoBox title={`Remark`} text={info.animal_remark} />
-          <InfoBox title={`Caption`} text={info.animal_caption} />
-        </Section>
+          <InfoBox title={`備註`} text={info.animal_remark} />
+          <InfoBox title={`額外備註`} text={info.animal_caption} />
+        </InfoSection>
       </Container>
     </Layout>
   )
