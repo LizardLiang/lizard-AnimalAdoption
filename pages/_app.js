@@ -7,6 +7,7 @@ import { DogInfo } from '../lib/dog-context'
 import { AnimatePresence } from 'framer-motion'
 
 const Website = ({ Component, pageProps, router }) => {
+  const [animalList, setAnimalList] = useState([])
   const [sel, setSel] = useState({})
   const handleSelection = newSel => {
     newSel.animal_age =
@@ -18,7 +19,14 @@ const Website = ({ Component, pageProps, router }) => {
       <Fonts />
       <Layout router={router}>
         <AnimatePresence exitBeforeEnter initial={true}>
-          <DogInfo.Provider value={{ info: sel, setInfo: handleSelection }}>
+          <DogInfo.Provider
+            value={{
+              info: sel,
+              setInfo: handleSelection,
+              animalList: animalList,
+              setAnimalList: setAnimalList
+            }}
+          >
             <Component {...pageProps} key={router.route} />
           </DogInfo.Provider>
         </AnimatePresence>
@@ -28,3 +36,4 @@ const Website = ({ Component, pageProps, router }) => {
 }
 
 export default Website
+
