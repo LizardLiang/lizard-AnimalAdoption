@@ -12,7 +12,7 @@ import Card from '../components/card'
 import Layout from '../components/layouts/article'
 import LoadingPage from '../components/spinner'
 import NoData from '../components/no-data'
-import clientPromise from '../lib/mongoDB'
+// import clientPromise from '../lib/mongoDB'
 
 const Page = () => {
   const { setInfo, animalList, setAnimalList } = useContext(DogInfo) // store dog info for later use
@@ -107,8 +107,7 @@ const Page = () => {
   )
 }
 
-export default Page
-
+export default Page`
 export async function getServerSideProps() {
   try {
     await clientPromise
@@ -122,4 +121,4 @@ export async function getServerSideProps() {
     }
   }
 }
-
+`
