@@ -12,7 +12,6 @@ import Card from '../components/card'
 import Layout from '../components/layouts/article'
 import LoadingPage from '../components/spinner'
 import NoData from '../components/no-data'
-// import clientPromise from '../lib/mongoDB'
 
 const Page = () => {
   const { setInfo, animalList, setAnimalList } = useContext(DogInfo) // store dog info for later use
@@ -40,7 +39,7 @@ const Page = () => {
           setLoading(false)
         })
     }
-  }, [animalList])
+  }, [animalList, setAnimalList])
 
   return (
     <Layout>
@@ -107,18 +106,4 @@ const Page = () => {
   )
 }
 
-export default Page`
-export async function getServerSideProps() {
-  try {
-    await clientPromise
-    return {
-      props: { isConnected: true }
-    }
-  } catch (e) {
-    console.dir(e)
-    return {
-      props: { isConnected: false }
-    }
-  }
-}
-`
+export default Page
