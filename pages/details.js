@@ -1,9 +1,10 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import Layout from '../components/layouts/article'
 import Section from '../components/section'
 import { Title, Thumbnail, InfoBox, InfoSection } from '../components/detail'
 import { Container } from '@chakra-ui/react'
 import { DogInfo } from '../lib/dog-context'
+import { useRouter } from 'next/router'
 
 const LookupTable = {
   bodyType: {
@@ -101,7 +102,16 @@ const LookupTable = {
 
 const Details = ({}) => {
   const { info } = useContext(DogInfo)
+  const router = useRouter()
   const placeholder = '/images/dogPlaceholder.png'
+
+  useEffect(() => {
+    if (info.animal_id === undefined) {
+      router.push('/')
+    }
+
+    return () => {}
+  }, [])
 
   return (
     <Layout>
@@ -124,11 +134,11 @@ const Details = ({}) => {
         </InfoSection>
         <InfoSection title="位置訊息" delay={0.9}>
           <InfoBox
-            title={`所在縣市`}
+            title={`所屬�市`}
             text={LookupTable.areaPkid[info.animal_area_pkid]}
           />
           <InfoBox
-            title={`收容所名稱`}
+            title={`�屬收容所名稱`}
             text={LookupTable.shelter[info.animal_shelter_pkid]}
           />
         </InfoSection>
@@ -136,9 +146,9 @@ const Details = ({}) => {
           <InfoBox title={`收容所名稱`} text={info.shelter_name} />
           <InfoBox title={`收容所地址`} text={info.shelter_address} />
           <InfoBox title={`收容所電話`} text={info.shelter_tel} />
-          <InfoBox title={`位置`} text={info.animal_place} />
+          <InfoBox title={`�際所在地`} text={info.animal_place} />
         </InfoSection>
-        <InfoSection title="動物資訊" delay={1.5}>
+        <InfoSection title="詳細資料" delay={1.5}>
           <InfoBox
             title={`體型`}
             text={LookupTable.bodyType[info.animal_bodytype]}
@@ -155,7 +165,6 @@ const Details = ({}) => {
             text={LookupTable.bacterin[info.animal_bacterin]}
           />
           <InfoBox title={`備註`} text={info.animal_remark} />
-          <InfoBox title={`額外備註`} text={info.animal_caption} />
         </InfoSection>
       </Container>
     </Layout>
@@ -163,3 +172,4 @@ const Details = ({}) => {
 }
 
 export default Details
+
