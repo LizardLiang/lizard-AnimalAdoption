@@ -12,33 +12,35 @@ import Card from '../components/card'
 import Layout from '../components/layouts/article'
 import LoadingPage from '../components/spinner'
 import NoData from '../components/no-data'
+import clientPromise from '../lib/mongoDB'
 
 const Page = () => {
-  const { setInfo } = useContext(DogInfo) // store dog info for later use
+  const { setInfo, animalList, setAnimalList } = useContext(DogInfo) // store dog info for later use
   const [loading, setLoading] = useState(false)
-  const [dogInfo, setDogInfo] = useState([])
 
   const searchOffset = useRef(0)
 
   useEffect(() => {
-    setLoading(true)
-    fetch(
-      `https://cor-proxy.herokuapp.com/https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&animal_kind=${encodeURIComponent(
-        '狗'
-      )}&$top=20&$skip=${searchOffset.current}`,
-      {
-        headers: {
-          Accept: 'application/json',
-          'Content-type': 'application/json'
+    if (animalList.length === 0) {
+      setLoading(true)
+      fetch(
+        `https://cor-proxy.herokuapp.com/https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&animal_kind=${encodeURIComponent(
+          '狗'
+        )}&$top=20&$skip=${searchOffset.current}`,
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-type': 'application/json'
+          }
         }
-      }
-    )
-      .then(res => res.json())
-      .then(res => {
-        setDogInfo(res)
-        setLoading(false)
-      })
-  }, [])
+      )
+        .then(res => res.json())
+        .then(res => {
+          setAnimalList(old => old.concat(res))
+          setLoading(false)
+        })
+    }
+  }, [animalList])
 
   return (
     <Layout>
@@ -79,9 +81,9 @@ const Page = () => {
 
         {loading ? (
           <LoadingPage />
-        ) : dogInfo.length > 0 ? (
+        ) : animalList.length > 0 ? (
           <SimpleGrid columns={[1, 1, 2]} gap={6}>
-            {dogInfo.map(res => {
+            {animalList.map(res => {
               return (
                 <Card
                   key={res.animal_subid}
@@ -106,3 +108,18 @@ const Page = () => {
 }
 
 export default Page
+
+export async function getServerSideProps() {
+  try {
+    await clientPromise
+    return {
+      props: { isConnected: true }
+    }
+  } catch (e) {
+    console.dir(e)
+    return {
+      props: { isConnected: false }
+    }
+  }
+}
+
